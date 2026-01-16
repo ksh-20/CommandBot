@@ -1,4 +1,4 @@
-// Kindly ignore this file, it is work in progress. Use the robot_control.ino file instead.
+// Kindly ignore this file, this is under work in progress. Kindly use the robot_control.ino file instead.
 
 #include <ArduinoBearSSL.h>
 #include <WiFi.h>
