@@ -76,11 +76,13 @@ Motor Control + Voice Feedback
 CommandBot/
 │
 ├── Arduino/
+│ ├── conf.h
 │ └── robot_wifi_ai.ino
 │
 ├── Python/
+│ ├── .env
 │ ├── voice_assistant.py
-│ ├── gemini_api.py
+│ ├── api.py
 │ ├── tts.py
 │ ├── requirements.txt
 │
@@ -112,36 +114,39 @@ CommandBot/
 
 ### 1️⃣ Arduino / ESP32 Setup
 
-1. Open `Arduino/robot_wifi_ai.ino`
-2. Update WiFi credentials:
+1. Create a conf.h file inside `Arduino/`
+2. Conf.h file contents:
+
    ```cpp
-   const char* ssid = "YOUR_WIFI";
-   const char* password = "YOUR_PASSWORD";
+   #ifndef CONF_H
+   #define CONF_H
+
+   #define WIFI_SSID "your_wifi_ssid"
+   #define WIFI_PASS "your_wifi_password"
+
+   #endif // CONF_H
+
    ```
-3. Upload the code
+
+3. Upload the robot_control.ino code
 4. Note the robot IP address from the Serial Monitor
 
 ### 2️⃣ Python Setup
 
 1. Install requirements:
 
-   ```bash
-   pip install -r requirements.txt
+```bash
+pip install -r requirements.txt
+```
+
+2. Update IP address and Gemini API Key by creating a .env file inside the Python Folder:
+
+   ```env
+   GEMINI_API_KEY = <YOUR_GEMINI_API_KEY>
+   ARDUINO_IP = <YOUR_ROBOT_IP>
    ```
 
-2. Update IP address in `voice_assistant.py`:
-
-   ```python
-   ARDUINO_IP = "YOUR_ROBOT_IP"
-   ```
-
-3. Update Gemini API key in `voice_assistant.py`:
-
-   ```python
-   GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"
-   ```
-
-4. Run the script:
+3. Run the script:
    ```bash
    python voice_assistant.py
    ```

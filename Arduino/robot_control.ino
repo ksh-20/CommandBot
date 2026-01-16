@@ -1,4 +1,5 @@
 #include <WiFi.h>
+#include "conf.h"
 
 // For Motors
 #define IN1 5
@@ -11,8 +12,8 @@
 #define ECHO 3
 
 // For WiFi
-const char* ssid = "YOUR_WIFI";
-const char* password = "YOUR_PASSWORD";
+const char* ssid = WIFI_SSID;
+const char* password = WIFI_PASS;
 
 WiFiServer server(80);
 

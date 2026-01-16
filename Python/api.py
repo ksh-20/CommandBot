@@ -1,6 +1,10 @@
 import requests
+import os
+from dotenv import load_dotenv
 
-GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"
+load_dotenv()
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 def ask_gemini(text):
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={GEMINI_API_KEY}"

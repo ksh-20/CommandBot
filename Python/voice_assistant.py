@@ -2,8 +2,12 @@ import speech_recognition as sr
 import socket
 from api import ask_gemini
 from tts import speak
+import os
+from dotenv import load_dotenv
 
-ARDUINO_IP = "192.168.1.100"
+load_dotenv()
+
+ARDUINO_IP = os.getenv("ARDUINO_IP")
 PORT = 80
 
 recognizer = sr.Recognizer()
