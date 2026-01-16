@@ -4,3 +4,6 @@
 *venv/
 
 .vscode/
+
+# File under progress so kindly ignore it
+*AI_Bot.ino
