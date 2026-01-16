@@ -1,33 +1,36 @@
 import speech_recognition as sr
-import serial
-import time
-from gemini_api import ask_gemini
+import socket
+from api import ask_gemini
+from tts import speak
 
-# Change COM port (Windows)
-arduino = serial.Serial(port="COM3", baudrate=9600, timeout=1)
-time.sleep(2)
+ARDUINO_IP = "192.168.1.100"
+PORT = 80
 
 recognizer = sr.Recognizer()
 mic = sr.Microphone()
 
-print("Voice Control Started...")
+def send_command(cmd):
+    s = socket.socket()
+    s.connect((ARDUINO_IP, PORT))
+    s.send((cmd + "\n").encode())
+    response = s.recv(1024).decode()
+    s.close()
+    return response
+
+speak("Robot is ready")
 
 while True:
     with mic as source:
         recognizer.adjust_for_ambient_noise(source)
-        print("Listening...")
+        speak("Listening")
         audio = recognizer.listen(source)
 
     try:
         text = recognizer.recognize_google(audio)
-        print("You said:", text)
-
         command = ask_gemini(text)
-        print("Gemini Command:", command)
 
-        arduino.write((command + "\n").encode())
+        response = send_command(command)
+        speak(response)
 
-    except sr.UnknownValueError:
-        print("Could not understand")
-    except Exception as e:
-        print("Error:", e)
+    except:
+        speak("I did not understand")

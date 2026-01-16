@@ -1,37 +1,84 @@
+#include <WiFi.h>
+
+// For Motors
 #define IN1 5
 #define IN2 6
 #define IN3 9
 #define IN4 10
 
+// For Ultrasonic Sensor
+#define TRIG 2
+#define ECHO 3
+
+// For WiFi
+const char* ssid = "YOUR_WIFI";
+const char* password = "YOUR_PASSWORD";
+
+WiFiServer server(80);
+
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
   pinMode(IN3, OUTPUT);
   pinMode(IN4, OUTPUT);
 
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
+
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) 
+    delay(1000);
+
+  server.begin();
   stopRobot();
 }
 
 void loop() {
-  if (Serial.available()) {
-    String command = Serial.readStringUntil('\n');
-    command.trim();
-    command.toUpperCase();
+  WiFiClient client = server.available();
+  if (!client) 
+    return;
 
-    if (command == "FORWARD") {
-      forward();
-    } else if (command == "BACKWARD") {
-      backward();
-    } else if (command == "LEFT") {
-      left();
-    } else if (command == "RIGHT") {
-      right();
-    } else if (command == "STOP") {
-      stopRobot();
-    }
+  String cmd = client.readStringUntil('\n');
+  cmd.trim();
+  cmd.toUpperCase();
+
+  long distance = getDistance();
+
+  if (distance < 20 && cmd == "FORWARD") {
+    stopRobot();
+    client.println("Obstacle detected");
+  } else {
+    execute(cmd);
+    client.println("Executed: " + cmd);
   }
+
+  client.stop();
+}
+
+long getDistance() {
+  digitalWrite(TRIG, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG, LOW);
+
+  long duration = pulseIn(ECHO, HIGH);
+  return duration * 0.034 / 2;
+}
+
+void execute(String cmd) {
+  if (cmd == "FORWARD") 
+    forward();
+  else if (cmd == "BACKWARD")
+    backward();
+  else if (cmd == "LEFT")
+    left();
+  else if (cmd == "RIGHT")
+    right();
+  else
+    stopRobot();
 }
 
 void forward() {
