@@ -90,6 +90,24 @@ CommandBot/
 
 ---
 
+## Getting Sarted
+
+### **For Arduino Code: All Libraries are available inside Arduino Library Manager**
+
+- Arduino IDE ([https://www.arduino.cc/en/software](https://www.arduino.cc/en/software))
+- ArduinoJson library ([https://arduinojson.org/](https://arduinojson.org/))
+- ArduinoBearSSL library ([invalid URL removed]) (optional, for secure communication)
+- ChatGPT library (`ChatGPT.hpp`) (download or implement your own)
+
+### **For Python Code: Enter a virtual environment and install the libraries**
+
+- Python 3.x ([https://www.python.org/downloads/](https://www.python.org/downloads/))
+- SpeechRecognition library (`pip install SpeechRecognition`)
+- PyTextToSpeech library (`pip install pyttsx3`)
+- webbrowser library (included in standard library)
+
+---
+
 ## ⚙️ Setup Instructions
 
 ### 1️⃣ Arduino / ESP32 Setup

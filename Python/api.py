@@ -9,14 +9,14 @@ def ask_gemini(text):
         "contents": [{
             "parts": [{
                 "text": f"""
-You are a robot controller.
-Convert the user sentence into ONE command from:
-FORWARD, BACKWARD, LEFT, RIGHT, STOP.
+                    You are a robot controller.
+                    Convert the user sentence into ONE command from:
+                    FORWARD, BACKWARD, LEFT, RIGHT, STOP.
 
-User sentence: {text}
+                    User sentence: {text}
 
-Only output the command.
-"""
+                    Only output the command.
+                """
             }]
         }]
     }
